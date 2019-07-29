@@ -9,6 +9,8 @@ This library is divided into two for different types of usages:
     * <em><strong>[Example](https://github.com/ExpediaDotCom/blobs-example)</strong></em>
     * <em><strong>Internals</strong></em>
 		
+		![standalone](https://github.com/ExpediaDotCom/blobs/readme-resources/Standalone.png)
+		
         One can use [Stores](#stores) present in the library to directly dump blob to a particular sink and retrieve it whenever needed.
     
 2. <strong>[Haystack](https://expediadotcom.github.io/haystack/)</strong>
