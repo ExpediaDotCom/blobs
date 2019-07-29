@@ -85,8 +85,8 @@ class S3BlobStoreSpec extends FunSpec with GivenWhenThen with BeforeAndAfter wit
     replay(transferManager, blobBuilder)
     When("store is requested to store the blob")
     store.store(blobBuilder)
-    capturedRequest.getValue.getBucketName shouldEqual "blobs"
     Thread.sleep(5000)
+    capturedRequest.getValue.getBucketName shouldEqual "blobs"
     Then("it should create a put request and send it to the transfer manager")
     verify(transferManager, blobBuilder)
   }
