@@ -4,16 +4,19 @@ This repository contains all the modules needed for an application. From creatio
 
 This library is divided into two for different types of usages: 
 
-1. Standalone usage
-
-	One can use [Stores](#stores) present in the library to directly dump blob to a particular sink and retrieve it whenever needed.
-    
-    You can look at our [sample application](https://github.com/ExpediaDotCom/blobs-example) for how to save a blob through a simple web application.
-2. Use with [Haystack](https://expediadotcom.github.io/haystack/)
+1. <strong>Standalone</strong>
 	
-    One can use [haystack-blobs](haystack-blobs/README.md) to send blobs to [Haystack-Agent](https://github.com/ExpediaDotCom/haystack-agent) which then dispatches a blob via a dispatcher.
+    * <em><strong>[Example](https://github.com/ExpediaDotCom/blobs-example)</strong></em>
+    * <em><strong>Internals</strong></em>
+		
+        One can use [Stores](#stores) present in the library to directly dump blob to a particular sink and retrieve it whenever needed.
     
-    Click [here](haystack-blobs/README.md) for more details.
+2. <strong>[Haystack](https://expediadotcom.github.io/haystack/)</strong>
+
+	* <strong><em>[Example](https://github.com/ExpediaDotCom/span-blob-example)</em></strong>
+	* <strong><em>Internals</em></strong>
+
+		Click [here](haystack-blobs/README.md) for more details.
 
 ## Table of content
 

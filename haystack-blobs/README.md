@@ -36,10 +36,6 @@ agents {
 
 ```
 
-Please can refer the following [Example](https://github.com/ExpediaDotCom/span-blob-example) to have a better understanding on how to use this library.
-
-To have a better understanding on how things are flowing please refer [haystack-docker](https://github.com/ExpediaDotCom/haystack-docker) for a fully running end to end example.
-
 ### Client
 
 This is a GRPC client that is used to send the blob to wherever the server resides.
