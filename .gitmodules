@@ -1,4 +1,4 @@
 [submodule "haystack-blobs/blobs-grpc-models/src/main/haystack-idl"]
 	path = haystack-blobs/blobs-grpc-models/src/main/haystack-idl
-	url = git@github.com-private:ExpediaDotCom/haystack-idl.git
+	url = https://github.com/ExpediaDotCom/haystack-idl.git
 	branch = master
