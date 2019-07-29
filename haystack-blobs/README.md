@@ -9,7 +9,7 @@
 
 ## Haystack Blobs
 
-![haystack-integration](https://github.com/ExpediaDotCom/blobs/readme-resources/haystack-integration.png)
+![haystack-integration](../readme-resources/haystack-integration.png)
 
 This module contains all the sub modules needed by an application to interact with [Haystack-Agent](https://github.com/ExpediaDotCom/haystack-agent) for dispatching a blob though a dispatcher present in it. The blob is sent to [Haystack-Agent](https://github.com/ExpediaDotCom/haystack-agent) over [GRPC](https://grpc.io/) via a client and then received by the agent via a server already running there. The blob received is then dispatched through a [dispatcher](#dispatchers) integrated in the agent.
 
@@ -86,7 +86,7 @@ The name of the tag can be according to the `BlobType`(inside [blobs core](blobs
 
 ### Reverse Proxy
 
-![reverse-proxy](https://github.com/ExpediaDotCom/blobs/readme-resources/haystack-reverseProxy-integration.png)
+![reverse-proxy](../readme-resources/haystack-reverseProxy-integration.png)
 
 To run the HTTP proxy to GRPC service locally please follow the below steps as we have not automated everything for now. We have used [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) to generate the stub and proxy files.
 
