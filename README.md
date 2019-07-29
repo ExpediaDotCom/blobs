@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/ExpediaDotCom/haystack-traces.svg?branch=master)](https://travis-ci.org/ExpediaDotCom/blobs)
+[![License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/ExpediaDotCom/haystack/blob/master/LICENSE)
+
 ## Blobs
 
 This repository contains all the modules needed for an application. From creation of a blob, write it to a particular storage sink to read that blob back anytime you want. A blob can be any data that you may need to store somewhere for future need, preferably request and response data of a service. 
