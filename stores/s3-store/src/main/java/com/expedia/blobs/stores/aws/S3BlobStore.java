@@ -63,7 +63,7 @@ public class S3BlobStore extends AsyncSupport {
         this.compressDecompressService = builder.compressDecompressService;
 
         if (builder.closeOnShutdown) {
-            this.shutdownHookAdded = builder.closeOnShutdown;
+            this.shutdownHookAdded = true;
             Runtime.getRuntime().addShutdownHook(this.shutdownHook);
         } else {
             LOGGER.info("No shutdown hook registered: Please call close() manually on application shutdown.");
@@ -73,7 +73,6 @@ public class S3BlobStore extends AsyncSupport {
 
     @Override
     protected void storeInternal(BlobWriterImpl.BlobBuilder blobBuilder) {
-
         final Blob blob = blobBuilder.build();
 
         try {
@@ -90,8 +89,7 @@ public class S3BlobStore extends AsyncSupport {
                             .withCannedAcl(CannedAccessControlList.BucketOwnerFullControl)
                             .withGeneralProgressListener(new UploadProgressListener(LOGGER, blob.getKey()));
 
-            final Upload upload = transferManager.upload(putRequest);
-            //upload.waitForUploadResult();
+            transferManager.upload(putRequest);
         } catch (Exception e) {
             final String message = String.format("Unable to upload blob to S3 for  key %s : %s",
                     blob.getKey(),

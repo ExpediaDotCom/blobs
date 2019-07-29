@@ -76,15 +76,17 @@ class S3BlobStoreSpec extends FunSpec with GivenWhenThen with BeforeAndAfter wit
 
     val blobBuilder = mock[BlobWriterImpl.BlobBuilder]
 
-    val result = mock[UploadImpl]
+    val result = mock[Upload]
+    val capturedRequest = EasyMock.newCapture[PutObjectRequest]()
     expecting {
-      transferManager.upload(anyObject[PutObjectRequest]).andReturn(result).times(1)
+      transferManager.upload(EasyMock.capture(capturedRequest)).andReturn(result).times(1)
       blobBuilder.build().andReturn(blob)
     }
     replay(transferManager, blobBuilder)
     When("store is requested to store the blob")
     store.store(blobBuilder)
-    Thread.sleep(10)
+    capturedRequest.getValue.getBucketName shouldEqual "blobs"
+    Thread.sleep(5000)
     Then("it should create a put request and send it to the transfer manager")
     verify(transferManager, blobBuilder)
   }
