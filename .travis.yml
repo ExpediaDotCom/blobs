@@ -1,0 +1,42 @@
+sudo: required
+
+dist: trusty
+
+services:
+  - docker
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+env:
+  global:
+    - BRANCH=${TRAVIS_BRANCH}
+    - TAG=${TRAVIS_TAG}
+    - SHA=${TRAVIS_COMMIT}
+    - DOCKER_IMAGE_NAME=blobs-http-reverse-proxy
+    - DOCKER_ORG=expediadotcom
+
+cache:
+  directories:
+  - $HOME/.m2
+
+install:
+  - ./mvnw --batch-mode install -B -V
+  - cd haystack-blobs/reverse-proxy && docker build -t $DOCKER_IMAGE_NAME -f Dockerfile .
+
+before_install:
+  - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
+  - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
+
+after_success:
+  - ./mvnw --batch-mode jacoco:report
+  - bash <(curl -s https://codecov.io/bash) || echo 'Codecov failed to upload'
+
+script:
+  - .travis/deploy.sh
+
+notifications:
+  email:
+    - haystack-notifications@expedia.com
