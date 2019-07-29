@@ -3,7 +3,7 @@
 
 ## Blobs
 
-This repository contains all the modules needed for an application. From creation of a blob, write it to a particular storage sink to read that blob back anytime you want. A blob can be any data that you may need to store somewhere for future need, preferably request and response data of a service. 
+This repository contains all the modules needed for an application. From creation of a blob, write it to a particular storage sink to read that blob back anytime you want. A blob can be any data that you may need to store somewhere for future need, preferably request and response data of a service.
 
 This library is divided into two for different types of usages: 
 
@@ -17,7 +17,6 @@ This library is divided into two for different types of usages:
         One can use [Stores](#stores) present in the library to directly dump blob to a particular sink and retrieve it whenever needed.
     
 2. <strong>[Haystack](https://expediadotcom.github.io/haystack/)</strong>
-
 	* <strong><em>[Example](https://github.com/ExpediaDotCom/span-blob-example)</em></strong>
 	* <strong><em>Internals</em></strong>
 
