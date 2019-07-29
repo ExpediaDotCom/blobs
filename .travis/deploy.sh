@@ -1,5 +1,4 @@
 #!/bin/bash
-cd `dirname $0`/..
 
 BRANCH=${TRAVIS_BRANCH}
 PULL_REQUEST=${TRAVIS_PULL_REQUEST}
