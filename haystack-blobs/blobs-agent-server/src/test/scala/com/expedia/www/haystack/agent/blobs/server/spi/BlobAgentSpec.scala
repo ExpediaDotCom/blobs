@@ -38,8 +38,8 @@ class BlobAgentSpec extends FunSpec with Matchers with EasyMockSugar {
   }
 
   describe("Blob Agent") {
-    it("should return the 'blobs' as name") {
-      new BlobAgent().getName shouldEqual "blobs"
+    it("should return the 'ossblobs' as name") {
+      new BlobAgent().getName shouldEqual "ossblobs"
     }
 
     it("should load the dispatchers from the config") {
