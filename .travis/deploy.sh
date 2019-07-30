@@ -25,7 +25,7 @@ if [[ "${BRANCH}" == 'master' && "${PULL_REQUEST}" == 'false' ]] || [[ -n "${TAG
   fi
 
   echo "Uploading to oss repo and GitHub"
-  ./mvnw deploy --settings .travis/settings.xml -DskipTests=true --batch-mode --update-snapshots -Prelease
+  ./mvnw deploy --settings .travis/settings.xml -DskipGpg=false -DskipTests=true --batch-mode --update-snapshots -Prelease
   SUCCESS=$?
   if [[ ${SUCCESS} -eq 0 ]]; then
     echo "successfully deployed the jars to nexus"
