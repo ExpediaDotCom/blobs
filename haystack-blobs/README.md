@@ -16,7 +16,7 @@ This module contains all the sub modules needed by an application to interact wi
 Below is a sample configuration for blobs in [Haystack-Agent](https://github.com/ExpediaDotCom/haystack-agent):
 ```
 agents {
-  blobs {
+  ossblobs {
     enabled = true
     port = 34001
     max.blob.size.in.kb = 1536
