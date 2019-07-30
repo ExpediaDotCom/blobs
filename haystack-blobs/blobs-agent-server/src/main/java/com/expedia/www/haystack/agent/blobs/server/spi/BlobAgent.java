@@ -37,7 +37,7 @@ public class BlobAgent implements Agent {
 
     @Override
     public String getName() {
-        return "blobs";
+        return "ossblobs";
     }
 
     @Override
