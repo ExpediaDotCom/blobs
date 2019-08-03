@@ -9,27 +9,21 @@ This library is divided into two for different types of usages:
 
 1. <strong>Standalone</strong>
 	
-    * <em><strong>[Example](https://github.com/ExpediaDotCom/blobs-example)</strong></em>
-    * <em><strong>Internals</strong></em>
-		
-		![standalone](readme-resources/Standalone.png)
-		
-        One can use [Stores](#stores) present in the library to directly dump blob to a particular sink and retrieve it whenever needed.
+    * [Example](https://github.com/ExpediaDotCom/blobs-example)
+    * [Internals](stores/README.md)
     
-2. <strong>[Haystack](https://expediadotcom.github.io/haystack/)</strong>
+2. <strong>Haystack</strong>
 
-	* <strong><em>[Example](https://github.com/ExpediaDotCom/span-blob-example)</em></strong>
-	* <strong><em>Internals</em></strong>
-
-		Click [here](haystack-blobs/README.md) for more details.
+	* [Example](https://github.com/ExpediaDotCom/span-blob-example)
+	* [Internals](haystack-blobs/README.md)
+	
+	For more information on haystack please refer [this](https://expediadotcom.github.io/haystack/).
 
 ## Table of content
 
 - [Setup](#setup)
 - [Blobs Core](#blobs-core)
 - [Stores](#stores)
-	* [File Store](#file-store)
-	* [S3 Store](#s3-store)
 
 ## Setup
 
@@ -51,12 +45,4 @@ This module contains all the core classes needed to instrument the creation of t
 
 ## Stores
 
-The stores are the sinks that can directly be integrated with a micro-service to dump a blob to a defined location.
-
-#### File Store
-
-This store is used to dump a blob to a local directory of a system where the micro-service is running.
-
-#### S3 Store
-
-This store will dump a blob to a given S3 bucket directly without using Haystack-Agent's dispatcher.
+Click [here](stores/README.md) for more details.
