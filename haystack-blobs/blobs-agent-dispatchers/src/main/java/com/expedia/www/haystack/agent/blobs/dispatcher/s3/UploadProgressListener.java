@@ -13,7 +13,10 @@ class UploadProgressListener implements ProgressListener {
     private final Meter dispatchFailureMeter;
     private final Timer.Context dispatchTimer;
 
-    UploadProgressListener(Logger logger, String objectKey, Meter dispatchFailureMeter, Timer.Context dispatchTimer) {
+    UploadProgressListener(final Logger logger,
+                           final String objectKey,
+                           final Meter dispatchFailureMeter,
+                           final Timer.Context dispatchTimer) {
         Validate.notNull(logger);
         Validate.notEmpty(objectKey);
         Validate.notNull(dispatchFailureMeter);
@@ -26,7 +29,7 @@ class UploadProgressListener implements ProgressListener {
     }
 
     @Override
-    public void progressChanged(ProgressEvent progressEvent) {
+    public void progressChanged(final ProgressEvent progressEvent) {
         final String msg = String.format("Progress event=%s file=%s transferred=%d", progressEvent.getEventType(), key,
                 progressEvent.getBytesTransferred());
         switch (progressEvent.getEventType()) {
@@ -42,9 +45,11 @@ class UploadProgressListener implements ProgressListener {
                 break;
             case TRANSFER_PART_FAILED_EVENT:
                 logger.error(msg);
+                close();
                 break;
             default:
                 logger.info(msg);
+                close();
                 break;
         }
     }

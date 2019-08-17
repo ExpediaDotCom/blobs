@@ -98,7 +98,11 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
     private Timer dispatchTimer;
 
     @VisibleForTesting
-    S3Dispatcher(TransferManager transferManager, String bucketName, Boolean shouldWaitForUpload, int maxOutstandingRequests, CompressDecompressService compressDecompressService) {
+    S3Dispatcher(final TransferManager transferManager,
+                 final String bucketName,
+                 final Boolean shouldWaitForUpload,
+                 final int maxOutstandingRequests,
+                 final CompressDecompressService compressDecompressService) {
         this.transferManager = transferManager;
         this.bucketName = bucketName;
         this.shouldWaitForUpload = shouldWaitForUpload;
@@ -217,7 +221,7 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
         dispatchFailureMeter = SharedMetricRegistry.newMeter("s3.dispatch.failure");
         dispatchTimer = SharedMetricRegistry.newTimer("s3.dispatch.timer");
 
-        LOGGER.info("Successfully initialized the S3 dispatcher with config={}", s3Config);
+        LOGGER.info("Successfully initialized the S3 dispatcher...");
     }
 
     private static TransferManager createTransferManager(final Config config) {
@@ -235,15 +239,20 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
         }
 
         final AmazonS3 s3 = getS3Client(config, clientConfiguration);
-
-        return TransferManagerBuilder.standard().withS3Client(s3)
-                .withMultipartUploadThreshold(MULTIPART_UPLOAD_THRESHOLD).build();
+        return TransferManagerBuilder.standard()
+                .withS3Client(s3)
+                .withMultipartUploadThreshold(MULTIPART_UPLOAD_THRESHOLD)
+                .build();
     }
 
     private static AmazonS3 getS3Client(Config config, ClientConfiguration clientConfiguration) {
         final String region = config.getString(REGION_PROPERTY);
-        final boolean pathStyleAccessEnabled = config.hasPath(AWS_PATH_STYLE_ACCESS_ENABLED) ? config.getBoolean(AWS_PATH_STYLE_ACCESS_ENABLED) : false;
-        final boolean disableChunkedEncoding = config.hasPath(AWS_DISABLE_CHUNKED_ENCODING) ? config.getBoolean(AWS_DISABLE_CHUNKED_ENCODING) : false;
+
+        final boolean pathStyleAccessEnabled = config.hasPath(AWS_PATH_STYLE_ACCESS_ENABLED) &&
+                config.getBoolean(AWS_PATH_STYLE_ACCESS_ENABLED);
+
+        final boolean disableChunkedEncoding = config.hasPath(AWS_DISABLE_CHUNKED_ENCODING) &&
+                config.getBoolean(AWS_DISABLE_CHUNKED_ENCODING);
 
         AmazonS3ClientBuilder s3ClientBuilder = AmazonS3ClientBuilder.standard()
                 .withCredentials(buildCredentialProvider(config))
@@ -251,7 +260,8 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
                 .withPathStyleAccessEnabled(pathStyleAccessEnabled);
 
         if (config.hasPath(AWS_SERVICE_ENDPOINT)) {
-            s3ClientBuilder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(config.getString(AWS_SERVICE_ENDPOINT), region));
+            s3ClientBuilder.withEndpointConfiguration(new
+                    AwsClientBuilder.EndpointConfiguration(config.getString(AWS_SERVICE_ENDPOINT), region));
         } else {
             s3ClientBuilder.withRegion(region);
         }
@@ -284,7 +294,8 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
     }
 
     CompressDecompressService.CompressionType findCompressionType(Config config) {
-        final String compressionType = config.hasPath(COMPRESSION_TYPE_CONFIG_KEY) ? config.getString(COMPRESSION_TYPE_CONFIG_KEY).toUpperCase() : "NONE";
+        final String compressionType = config.hasPath(COMPRESSION_TYPE_CONFIG_KEY) ?
+                config.getString(COMPRESSION_TYPE_CONFIG_KEY).toUpperCase() : "NONE";
         return CompressDecompressService.CompressionType.valueOf(compressionType);
     }
 
@@ -301,5 +312,4 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
             transferManager.shutdownNow();
         }
     }
-
 }
