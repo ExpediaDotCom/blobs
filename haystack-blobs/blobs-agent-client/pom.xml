@@ -37,25 +37,19 @@
             <artifactId>protobuf-java</artifactId>
             <version>${protobuf.version}</version>
         </dependency>
+
+        <!-- grpc -->
         <dependency>
             <groupId>io.grpc</groupId>
-            <artifactId>grpc-core</artifactId>
+            <artifactId>grpc-all</artifactId>
             <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-            <version>${grpc.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
             <version>${grpc.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- test -->
