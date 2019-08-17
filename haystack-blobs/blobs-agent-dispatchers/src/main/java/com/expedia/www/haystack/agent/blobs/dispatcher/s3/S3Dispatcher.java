@@ -21,6 +21,8 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.profile.internal.securitytoken.RoleInfo;
+import com.amazonaws.auth.profile.internal.securitytoken.STSProfileCredentialsServiceProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -73,6 +75,8 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
     private final static String AWS_SERVICE_ENDPOINT = "service.endpoint";
     private final static String AWS_PATH_STYLE_ACCESS_ENABLED = "path.style.access.enabled";
     private final static String AWS_DISABLE_CHUNKED_ENCODING = "disable.chunked.encoding";
+    private final static String AWS_USE_STS_ARN = "use.sts.arn";
+    private final static String AWS_STS_ARN_ROLE = "sts.arn.role";
 
     private final static String SHOULD_WAIT_FOR_UPLOAD = "should.wait.for.upload";
 
@@ -261,7 +265,15 @@ public class S3Dispatcher implements BlobDispatcher, AutoCloseable {
 
     @VisibleForTesting
     static AWSCredentialsProvider buildCredentialProvider(final Config config) {
-        if (config.hasPath(AWS_ACCESS_KEY) && config.hasPath(AWS_SECRET_KEY)) {
+        if (config.hasPath(AWS_USE_STS_ARN) && config.getBoolean(AWS_USE_STS_ARN)) {
+            LOGGER.info("using STS profile credential service provider");
+            Validate.isTrue(config.hasPath(AWS_STS_ARN_ROLE), "AWS STS Assume-Role should be present when enabled");
+
+            return new STSProfileCredentialsServiceProvider(
+                    new RoleInfo().withRoleArn(config.getString(AWS_STS_ARN_ROLE))
+                            .withRoleSessionName("haystack-monitoring-blobs-agent"));
+
+        } else if (config.hasPath(AWS_ACCESS_KEY) && config.hasPath(AWS_SECRET_KEY)) {
             LOGGER.info("using static aws credential provider with access and secret key for s3 dispatcher");
             return new AWSStaticCredentialsProvider(
                     new BasicAWSCredentials(config.getString(AWS_ACCESS_KEY), config.getString(AWS_SECRET_KEY)));

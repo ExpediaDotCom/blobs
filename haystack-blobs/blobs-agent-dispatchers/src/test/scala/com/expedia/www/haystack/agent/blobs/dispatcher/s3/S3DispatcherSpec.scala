@@ -3,6 +3,7 @@ package com.expedia.www.haystack.agent.blobs.dispatcher.s3
 import java.io.{ByteArrayInputStream, InputStream}
 import java.util.Optional
 
+import com.amazonaws.auth.profile.internal.securitytoken.STSProfileCredentialsServiceProvider
 import com.amazonaws.auth.{AWSStaticCredentialsProvider, DefaultAWSCredentialsProviderChain}
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.{ObjectMetadata, PutObjectRequest, S3Object, S3ObjectInputStream}
@@ -257,6 +258,42 @@ class S3DispatcherSpec extends FunSpec with GivenWhenThen with BeforeAndAfter wi
       }
       caught should not be null
       caught.getMessage should include("RateLimit is hit with outstanding(pending) requests=0")
+    }
+
+    it("should throw error while building the credential provider using unavailable STS assume-role") {
+      When("given the complete configuration")
+      val config = ConfigFactory.parseString(
+        """
+          |bucket.name = "haystack"
+          |max.outstanding.requests = 50
+          |should.wait.for.upload = false
+          |use.sts.arn = true
+        """.stripMargin)
+
+      And("credential provider is build")
+      val caught = intercept[Exception]{
+        S3Dispatcher.buildCredentialProvider(config)
+      }
+      caught should not be null
+      caught.getMessage should include("AWS STS Assume-Role should be present when enabled")
+    }
+
+    it("should build the credential provider using STS assume-role") {
+      When("given the complete configuration")
+      val config = ConfigFactory.parseString(
+        """
+          |bucket.name = "haystack"
+          |max.outstanding.requests = 50
+          |should.wait.for.upload = false
+          |use.sts.arn = true
+          |sts.arn.role = "role/tempArnRole"
+        """.stripMargin)
+
+      And("credential provider is build")
+      val provider = S3Dispatcher.buildCredentialProvider(config)
+
+      Then("it should be the instance of STSProfileCredentialsServiceProvider")
+      provider.isInstanceOf[STSProfileCredentialsServiceProvider] shouldBe true
     }
 
     it("should build the credential provider using access and secret key") {
